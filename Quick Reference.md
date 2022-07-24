@@ -1,8 +1,8 @@
 # Terraform Quick Reference
 ### Get Help
-terraform -help — Get a list of available commands for execution with descriptions. Can be used with any other subcommand to get more information.
+_**terraform -help**_ — Get a list of available commands for execution with descriptions. Can be used with any other subcommand to get more information.
 
-terraform fmt -help — Display help options for the fmt command.
+**_terraform fmt -help_** — Display help options for the fmt command.
 
 ### Show Your Terraform Version
 terraform version — Shows the current version of your Terraform and notifies you if there is a newer version available for download.
