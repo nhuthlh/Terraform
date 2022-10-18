@@ -214,10 +214,14 @@ PS C:\Users\nhuth\Documents\terraform\3 Tier AWS VPC>
 ```
 
 ## Verify the VPC created in AWS
+![image](https://user-images.githubusercontent.com/67490369/196368662-3cfeb499-82a5-4040-bad7-fc4b1c7ca98b.png)
+
 
 ![image](https://user-images.githubusercontent.com/67490369/196367887-030b6808-c210-40f0-8e0c-f4b1f09b2a6a.png)
 
+
 ![image](https://user-images.githubusercontent.com/67490369/196368316-a9cf035f-07b4-4578-80b7-0806a81af5bc.png)
+
 
 ![image](https://user-images.githubusercontent.com/67490369/196368458-020f5c5c-caea-4fe2-b9c1-9067ee1da95d.png)
 
