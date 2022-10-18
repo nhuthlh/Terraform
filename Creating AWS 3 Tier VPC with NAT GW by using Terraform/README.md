@@ -225,3 +225,113 @@ PS C:\Users\nhuth\Documents\terraform\3 Tier AWS VPC>
 
 ![image](https://user-images.githubusercontent.com/67490369/196368458-020f5c5c-caea-4fe2-b9c1-9067ee1da95d.png)
 
+
+## Terraform destroy
+
+```
+PS C:\Users\nhuth\Documents\terraform\3 Tier AWS VPC> terraform destroy -auto-approve
+module.vpc.aws_eip.nat[0]: Refreshing state... [id=eipalloc-0769dbef180c6e65f]
+module.vpc.aws_vpc.this[0]: Refreshing state... [id=vpc-059827dbe231f122c]
+module.vpc.aws_subnet.private[0]: Refreshing state... [id=subnet-04e2d23aef7f1cca8]
+module.vpc.aws_subnet.private[1]: Refreshing state... [id=subnet-0e2f738c15670abee]
+module.vpc.aws_route_table.database[0]: Refreshing state... [id=rtb-07d540114e6a47eb3]
+module.vpc.aws_subnet.database[0]: Refreshing state... [id=subnet-08edb13a474056dad]
+module.vpc.aws_subnet.database[1]: Refreshing state... [id=subnet-0394ffbd98216e0fb]
+module.vpc.aws_route_table.public[0]: Refreshing state... [id=rtb-0658397a0ae41f292]
+module.vpc.aws_internet_gateway.this[0]: Refreshing state... [id=igw-0b22dc4682a5a005d]
+module.vpc.aws_route_table.private[0]: Refreshing state... [id=rtb-09f113e80dca174f8]
+module.vpc.aws_subnet.public[1]: Refreshing state... [id=subnet-0518247d2360907a6]
+module.vpc.aws_subnet.public[0]: Refreshing state... [id=subnet-05a4b9ca5f9f3f098]
+module.vpc.aws_route.public_internet_gateway[0]: Refreshing state... [id=r-rtb-0658397a0ae41f2921080289494]
+module.vpc.aws_route_table_association.public[0]: Refreshing state... [id=rtbassoc-008dd857d044e78c5]
+module.vpc.aws_route_table_association.public[1]: Refreshing state... [id=rtbassoc-0fbcc16e5996214c8]
+module.vpc.aws_nat_gateway.this[0]: Refreshing state... [id=nat-07ed85275f6d3c05b]
+module.vpc.aws_db_subnet_group.database[0]: Refreshing state... [id=hr-stag-myvpc]
+module.vpc.aws_route_table_association.database[0]: Refreshing state... [id=rtbassoc-0520e15b3e7863544]
+module.vpc.aws_route_table_association.database[1]: Refreshing state... [id=rtbassoc-0992121a93eb46de3]
+module.vpc.aws_route_table_association.private[0]: Refreshing state... [id=rtbassoc-055264da08a791ec1]
+module.vpc.aws_route_table_association.private[1]: Refreshing state... [id=rtbassoc-0334787083b063251]
+module.vpc.aws_route.private_nat_gateway[0]: Refreshing state... [id=r-rtb-09f113e80dca174f81080289494]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # module.vpc.aws_db_subnet_group.database[0] will be destroyed
+  - resource "aws_db_subnet_group" "database" {
+      - arn         = "arn:aws:rds:us-east-1:045177464321:subgrp:hr-stag-myvpc" -> null
+      - description = "Database subnet group for HR-stag-myvpc" -> null
+      - id          = "hr-stag-myvpc" -> null
+      - name        = "hr-stag-myvpc" -> null
+      - subnet_ids  = [
+          - "subnet-0394ffbd98216e0fb",
+          - "subnet-08edb13a474056dad",
+        ] -> null
+      - tags        = {
+          - "Name"        = "HR-stag-myvpc"
+          - "environment" = "stag"
+          - "owners"      = "HR"
+        } -> null
+        
+###Output truncated#####
+
+module.vpc.aws_db_subnet_group.database[0]: Destroying... [id=hr-stag-myvpc]
+module.vpc.aws_route_table_association.private[1]: Destroying... [id=rtbassoc-0334787083b063251]
+module.vpc.aws_route.public_internet_gateway[0]: Destroying... [id=r-rtb-0658397a0ae41f2921080289494]
+module.vpc.aws_route_table_association.public[0]: Destroying... [id=rtbassoc-008dd857d044e78c5]
+module.vpc.aws_route_table_association.private[0]: Destroying... [id=rtbassoc-055264da08a791ec1]
+module.vpc.aws_route_table_association.database[0]: Destroying... [id=rtbassoc-0520e15b3e7863544]
+module.vpc.aws_route_table_association.database[1]: Destroying... [id=rtbassoc-0992121a93eb46de3]
+module.vpc.aws_route_table_association.public[1]: Destroying... [id=rtbassoc-0fbcc16e5996214c8]
+module.vpc.aws_route.private_nat_gateway[0]: Destroying... [id=r-rtb-09f113e80dca174f81080289494]
+module.vpc.aws_db_subnet_group.database[0]: Destruction complete after 1s
+module.vpc.aws_route_table_association.database[1]: Destruction complete after 3s
+module.vpc.aws_route_table_association.public[0]: Destruction complete after 3s
+module.vpc.aws_route_table_association.private[1]: Destruction complete after 3s
+module.vpc.aws_route_table_association.public[1]: Destruction complete after 3s
+module.vpc.aws_route_table_association.private[0]: Destruction complete after 3s
+module.vpc.aws_route_table_association.database[0]: Destruction complete after 3s
+module.vpc.aws_subnet.private[1]: Destroying... [id=subnet-0e2f738c15670abee]
+module.vpc.aws_subnet.private[0]: Destroying... [id=subnet-04e2d23aef7f1cca8]
+module.vpc.aws_route_table.database[0]: Destroying... [id=rtb-07d540114e6a47eb3]
+module.vpc.aws_subnet.database[1]: Destroying... [id=subnet-0394ffbd98216e0fb]
+module.vpc.aws_subnet.database[0]: Destroying... [id=subnet-08edb13a474056dad]
+module.vpc.aws_route.private_nat_gateway[0]: Destruction complete after 4s
+module.vpc.aws_nat_gateway.this[0]: Destroying... [id=nat-07ed85275f6d3c05b]
+module.vpc.aws_route_table.private[0]: Destroying... [id=rtb-09f113e80dca174f8]
+module.vpc.aws_route.public_internet_gateway[0]: Destruction complete after 4s
+module.vpc.aws_route_table.public[0]: Destroying... [id=rtb-0658397a0ae41f292]
+module.vpc.aws_subnet.private[0]: Destruction complete after 2s
+module.vpc.aws_subnet.private[1]: Destruction complete after 2s
+module.vpc.aws_subnet.database[0]: Destruction complete after 2s
+module.vpc.aws_subnet.database[1]: Destruction complete after 2s
+module.vpc.aws_route_table.database[0]: Destruction complete after 3s
+module.vpc.aws_route_table.private[0]: Destruction complete after 3s
+module.vpc.aws_route_table.public[0]: Destruction complete after 3s
+module.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-07ed85275f6d3c05b, 10s elapsed]
+module.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-07ed85275f6d3c05b, 20s elapsed]
+module.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-07ed85275f6d3c05b, 30s elapsed]
+module.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-07ed85275f6d3c05b, 40s elapsed]
+module.vpc.aws_nat_gateway.this[0]: Still destroying... [id=nat-07ed85275f6d3c05b, 50s elapsed]
+module.vpc.aws_nat_gateway.this[0]: Destruction complete after 56s
+module.vpc.aws_internet_gateway.this[0]: Destroying... [id=igw-0b22dc4682a5a005d]
+module.vpc.aws_subnet.public[0]: Destroying... [id=subnet-05a4b9ca5f9f3f098]
+module.vpc.aws_eip.nat[0]: Destroying... [id=eipalloc-0769dbef180c6e65f]    
+module.vpc.aws_subnet.public[1]: Destroying... [id=subnet-0518247d2360907a6]
+module.vpc.aws_subnet.public[1]: Destruction complete after 2s
+module.vpc.aws_subnet.public[0]: Destruction complete after 2s
+module.vpc.aws_eip.nat[0]: Destruction complete after 3s
+module.vpc.aws_internet_gateway.this[0]: Destruction complete after 3s
+module.vpc.aws_vpc.this[0]: Destroying... [id=vpc-059827dbe231f122c]
+module.vpc.aws_vpc.this[0]: Destruction complete after 2s
+
+Destroy complete! Resources: 22 destroyed.
+PS C:\Users\nhuth\Documents\terraform\3 Tier AWS VPC> 
+```
+
+```
+PS C:\Users\nhuth\Documents\terraform\3 Tier AWS VPC> rm .\.terraform\ -r -force
+PS C:\Users\nhuth\Documents\terraform\3 Tier AWS VPC> rm .\terraform*  
+```
