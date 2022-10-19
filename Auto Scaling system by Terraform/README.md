@@ -56,7 +56,7 @@ csr.pem  privatekey.pem  public.crt
 ```
 
 ## Create the RSA SSH key for EC2
-
+```
 $ ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/c/Users/nhuth/.ssh/id_rsa): 
@@ -78,7 +78,7 @@ The key's randomart image is:
 |         o =.E . |
 |        ..o....  |
 +----[SHA256]-----+
-
+```
 
 **Copy the SSH key and the TLS keys to the terraform directory.**
 
