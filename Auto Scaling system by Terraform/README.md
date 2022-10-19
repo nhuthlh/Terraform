@@ -2,23 +2,24 @@
 
 ## System design
 - Use default VPC
-- 
+- Application Load Balancer: HTTPS, HTTP redirected to HTTPS. Use self-signed X509 certificate created with openssl.
+- Auto Scaling group: Min=1, Max=4, target scaling policy: CPU 60%, NetworkInput 600Mbps
+- EC2 Launch configuration: t3.micro, 20G standard disk mount point /dev/sda1, user_data with nginx_install.sh will install NGINX, keypair name: myec2-key, private key saved on the local machine directory /home/your_user/.ssh/id_rsa.pub
 
+## Generating the local X509 key (for ALB HTTPS)
 
-
-Generating the local X509 key (for ALB HTTPS)
-
-Create RSA private key
-
+**Create RSA private key**
+```
 nhuth@DESKTOP-2MKH2RH MINGW64 ~/Documents/terraform/Auto Scaling system
 $ openssl genrsa 2048 > privatekey.pem
 Generating RSA private key, 2048 bit long modulus (2 primes)
 ....................................+++++
 ................+++++
 e is 65537 (0x010001)
+```
 
-Create certificate signing request (CSR) from the private key, the file is used to submit to a certificate authority (CA) to apply for a digital server certificate.
-
+**Create certificate signing request (CSR) from the private key, the file is used to submit to a certificate authority (CA) to apply for a digital server certificate.**
+```
 $ openssl req -new -key privatekey.pem -out csr.pem
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -39,10 +40,10 @@ Please enter the following 'extra' attributes
 to be sent with your certificate request
 A challenge password []:.
 An optional company name []:.
+```
 
-
-Sign the certificate ourself instead of signing by a CA
-
+**Sign the certificate ourself instead of signing by a CA**
+```
 $ openssl x509 -req -days 365 -in csr.pem -signkey privatekey.pem -out public.c
 rt
 Signature ok
@@ -52,9 +53,9 @@ Getting Private key
 nhuth@DESKTOP-2MKH2RH MINGW64 ~/Documents/terraform/Auto Scaling system
 $ ls
 csr.pem  privatekey.pem  public.crt
+```
 
-
-Create the RSA SSH key for EC2
+## Create the RSA SSH key for EC2
 
 $ ssh-keygen
 Generating public/private rsa key pair.
@@ -79,19 +80,19 @@ The key's randomart image is:
 +----[SHA256]-----+
 
 
-Copy the SSH key and the TLS keys to the terraform directory.
+**Copy the SSH key and the TLS keys to the terraform directory.**
 
-Configure the AWS access keys to prepare for deployment
-
+##Configure the AWS access keys to prepare for deployment
+```
 $ aws configure
 AWS Access Key ID [****************IX6C]: AKIAZLIMTM3ZPTSY72F6
 AWS Secret Access Key [****************df]: 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
 Default region name [us-east-1]: 
 Default output format [json]:
+```
 
-
-Deployment with Terraform
-
+## Deployment with Terraform
+```
 $ terraform init
 
 Initializing the backend...
@@ -107,12 +108,14 @@ so that Terraform can guarantee to make the same selections by default when
 you run "terraform init" in the future.
 
 Terraform has been successfully initialized!
+```
 
-
+```
 $ terraform validate
 Success! The configuration is valid.
+```
 
-
+```
 $ terraform plan
 data.aws_availability_zones.all_available: Reading...
 data.aws_availability_zones.all_available: Read complete after 1s [id=us-east-1]
@@ -153,9 +156,9 @@ Plan: 13 to add, 0 to change, 0 to destroy.
 
 Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform   
 apply" now.
+```
 
-
-
+```
 $ terraform apply -auto-approve
 data.aws_availability_zones.all_available: Reading...
 data.aws_availability_zones.all_available: Read complete after 1s [id=us-east-1]
@@ -217,23 +220,24 @@ aws_lb_listener.application-listener-https: Creation complete after 1s [id=arn:a
 aws_lb_listener.application-listener-http: Creation complete after 2s [id=arn:aws:elasticloadbalancing:us-east-1:642660919026:listener/app/TestBed/5c92ded21e7a0c4f/8628cd97a7ebfafb]
 
 Apply complete! Resources: 13 added, 0 changed, 0 destroyed.
+```
 
-Verify the system after deployment, 1 EC2 instance in the ASG
+## Verify the system after deployment, 1 EC2 instance in the ASG
 
 
 ![image](https://user-images.githubusercontent.com/67490369/196611968-ba448449-dbe1-42f7-98cd-737eea86441f.png)
 
 
 
-Stress the CPU to trigger auto scaling
-
+## Stress the CPU to trigger auto scaling
+```
 [ec2-user@ip-172-31-5-131 ~]$ sudo stress --cpu 8
 stress: info: [6343] dispatching hogs: 8 cpu, 0 io, 0 vm, 0 hdd
-
+```
 ![image](https://user-images.githubusercontent.com/67490369/196611747-e92e5455-0ea3-4f49-855c-ddbe17447c28.png)
 
 
-The system spin up another EC2
+## The system spin up another EC2
 
 ![image](https://user-images.githubusercontent.com/67490369/196611949-f0239b71-3891-4154-9e5a-bc8a0a7b7226.png)
 
