@@ -142,6 +142,7 @@ resource "aws_autoscaling_policy" "auto-scaling-policy-BW" {
     target_value = 600000000.0 #600Mbytes
   }
 }
+
 # Target Group
 resource "aws_lb_target_group" "auto-target-group" {
   name     = var.project-name
@@ -160,10 +161,15 @@ resource "aws_iam_server_certificate" "https-certification" {
     create_before_destroy = true
   }
 }
+
 #  ALB creation - This is Front End Application create on default VPCs and all subnets
-data "aws_subnet_ids" "default" {
-  vpc_id = aws_default_vpc.default.id
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [aws_default_vpc.default.id]
+  }
 }
+
 resource "aws_lb" "application-load-balancer" {
   name                       = var.project-name
   internal                   = false
@@ -178,6 +184,7 @@ resource "aws_lb" "application-load-balancer" {
     command = "echo ${aws_lb.application-load-balancer.dns_name}"
   }
 }
+
 # ALB listener for HTTPS with X509 certification
 resource "aws_lb_listener" "application-listener-https" {
   load_balancer_arn = aws_lb.application-load-balancer.arn
@@ -190,6 +197,7 @@ resource "aws_lb_listener" "application-listener-https" {
     target_group_arn = aws_lb_target_group.auto-target-group.arn
   }
 }
+
 # ALB listener for HTTP will be redirected to HTTPS
 resource "aws_lb_listener" "application-listener-http" {
   load_balancer_arn = aws_lb.application-load-balancer.arn
