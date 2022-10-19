@@ -237,7 +237,7 @@ stress: info: [6343] dispatching hogs: 8 cpu, 0 io, 0 vm, 0 hdd
 ![image](https://user-images.githubusercontent.com/67490369/196611747-e92e5455-0ea3-4f49-855c-ddbe17447c28.png)
 
 
-## The system spin up another EC2
+## The system adds another EC2
 
 ![image](https://user-images.githubusercontent.com/67490369/196611949-f0239b71-3891-4154-9e5a-bc8a0a7b7226.png)
 
